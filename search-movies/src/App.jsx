@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Movies } from './components/movies'
 import { useMovies } from './hooks/useMovies'
 import { useSearch } from './hooks/useInputController'
 import './App.css'
+import debounce from 'just-debounce-it'
 
 function App() {
 
@@ -10,6 +11,11 @@ function App() {
   const { inputForm, setInputForm, error } = useSearch()
   const { movies, getMovies, loading, errorMessage } = useMovies({ inputForm, sortMovies })
 
+  const debouncedGetMovies = useCallback(debounce(inputForm => {  // el debounce sirve para que no se hagan llamadas en vano a la API, es decir que no se hagan llamadas a la API hasta que no se termine de escribir en el input, es decir que no se hagan llamadas en vano a la API, pero si cada 300 milisegundos
+    getMovies({ inputForm })
+  }, 300)
+    , [getMovies]  // uso callback con dependencias de getmovies para que solo se cree el debounce cuando estoy necesitando getmovies
+  )
 
   /*const inputRef = useRef()    MANERA DE HACERLO CON EL USEREF , OSEA MANIPULANDO DIRECTAMENTE EL ARBOL ES UNA MANERA NO CONTROLADADA DE HACERLO, es para que el valor persista entre renders 
 
@@ -29,12 +35,13 @@ function App() {
   }*/
   const handleSubmit = (event) => {
     event.preventDefault()
-    getMovies()
+    getMovies({ inputForm })
   }
   const handleChangeInput = (event) => {
     const newInputForm = event.target.value
     if (newInputForm.startsWith(' ')) return;
     setInputForm(event.target.value)
+    debouncedGetMovies(newInputForm)
   }
   const handleSort = () => {
     setSortMovies(!sortMovies)
@@ -51,6 +58,7 @@ function App() {
             type="text"
             id='input-search'
             placeholder='Batman Returns, Harry Potter, Mision Imposible' />
+          <label>Ver por Orden Alfabetico A-Z</label>
           <input type="checkbox" onChange={handleSort} checked={sortMovies} />
           <button type="submit">Buscar</button>
 
