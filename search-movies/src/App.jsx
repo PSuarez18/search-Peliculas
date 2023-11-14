@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
-import './App.css'
 import { Movies } from './components/movies'
 import { useMovies } from './hooks/useMovies'
 import { useSearch } from './hooks/useInputController'
+import './App.css'
 
 function App() {
 
+  const [sortMovies, setSortMovies] = useState(false)
   const { inputForm, setInputForm, error } = useSearch()
-  const { movies: mappedMovies } = useMovies({inputForm})
+  const { movies, getMovies, loading, errorMessage } = useMovies({ inputForm, sortMovies })
+
 
   /*const inputRef = useRef()    MANERA DE HACERLO CON EL USEREF , OSEA MANIPULANDO DIRECTAMENTE EL ARBOL ES UNA MANERA NO CONTROLADADA DE HACERLO, es para que el valor persista entre renders 
 
@@ -27,15 +29,16 @@ function App() {
   }*/
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log(inputForm)
+    getMovies()
   }
   const handleChangeInput = (event) => {
     const newInputForm = event.target.value
     if (newInputForm.startsWith(' ')) return;
     setInputForm(event.target.value)
   }
-
-
+  const handleSort = () => {
+    setSortMovies(!sortMovies)
+  }
 
   return (
     <div className='page'>
@@ -48,6 +51,7 @@ function App() {
             type="text"
             id='input-search'
             placeholder='Batman Returns, Harry Potter, Mision Imposible' />
+          <input type="checkbox" onChange={handleSort} checked={sortMovies} />
           <button type="submit">Buscar</button>
 
         </form>
@@ -56,7 +60,9 @@ function App() {
       </header>
 
       <main>
-        <Movies movies={mappedMovies}  />
+        {
+          loading ? <p>loading...</p> : null}
+        <Movies movies={movies} />
 
       </main>
     </div>

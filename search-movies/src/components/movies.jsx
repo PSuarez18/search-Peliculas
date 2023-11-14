@@ -14,7 +14,7 @@ const ListOfMovies = ({ movies }) => {
 
 const NoMoviesResults = () => {
     return (
-        <p>NO HAY PELICULAS QUE MOSTRAR</p>
+        <p>NO HAY PELICULAS QUE MOSTRAR, INTENTA CON OTRA BUSQUEDA</p>
     )
 }
 
@@ -22,7 +22,7 @@ const NoMoviesResults = () => {
 
 export const Movies = ({ movies }) => {
 
-    const hasMovies = movies.length > 0;
+    const hasMovies = movies?.length > 0;
     return (
         hasMovies ?
             <ListOfMovies movies={movies} />
