@@ -4,18 +4,21 @@ import { useMovies } from './hooks/useMovies'
 import { useSearch } from './hooks/useInputController'
 import './App.css'
 import debounce from 'just-debounce-it'
+import { handleMovieClick } from './services/movieDetailApi'
+import MovieDetail from './components/detail'
 
 function App() {
 
   const [sortMovies, setSortMovies] = useState(false)
   const { inputForm, setInputForm, error } = useSearch()
   const { movies, getMovies, loading, errorMessage } = useMovies({ inputForm, sortMovies })
+  const [movieData, setMovieData] = useState(null)
 
   const debouncedGetMovies = useCallback(debounce(inputForm => {  // el debounce sirve para que no se hagan llamadas en vano a la API, es decir que no se hagan llamadas a la API hasta que no se termine de escribir en el input, es decir que no se hagan llamadas en vano a la API, pero si cada 300 milisegundos
     getMovies({ inputForm })
   }, 300)
-    , [getMovies]  // uso callback con dependencias de getmovies para que solo se cree el debounce cuando estoy necesitando getmovies
-  )
+    , [getMovies]  // uso callback  con dependencias de getmovies para que solo se cree el debounce cuando estoy necesitando getmovies
+  )  // y el usscallback hace que no se cree en cada rende render el debounce
 
   /*const inputRef = useRef()    MANERA DE HACERLO CON EL USEREF , OSEA MANIPULANDO DIRECTAMENTE EL ARBOL ES UNA MANERA NO CONTROLADADA DE HACERLO, es para que el valor persista entre renders 
 
@@ -50,11 +53,13 @@ function App() {
     setSortMovies(!sortMovies)
   }
 
+ 
+
   return (
     <div className='page'>
       <header>
         <form className='form-container' onSubmit={handleSubmit}>
-          <label className="label-search"  htmlFor="input-search">Busca tu Película:</label>
+          <label className="label-search" htmlFor="input-search">Busca tu Película:</label>
           <input value={inputForm}
             onChange={handleChangeInput}
             name='inputSearchForDoom'
@@ -62,10 +67,10 @@ function App() {
             id='input-search'
             placeholder='Encuentrala...'
             className='input-search'
-             />
+          />
           <label className='sort-label' htmlFor='input-checkbox' >Ver por Orden Alfabetico A-Z</label>
-          <input className='sort-checkbox'  type="checkbox" onChange={handleSort} checked={sortMovies}  id='input-checkbox'/>
-          
+          <input className='sort-checkbox' type="checkbox" onChange={handleSort} checked={sortMovies} id='input-checkbox' />
+
 
         </form>
         {error && <p className="error-message">{error}</p>}
@@ -74,8 +79,22 @@ function App() {
 
       <main>
         {
-          loading ? <p>loading...</p> : null}
-        <Movies movies={movies} />
+          loading ?
+            (<p>loading...</p>)
+            :
+            (
+              <>
+                {movieData ?
+                  (<MovieDetail data={movieData} />)
+                  :
+                  <Movies movies={movies} onMovieClick={(title) => handleMovieClick(title, setMovieData)} />}
+              </>
+            )
+
+        }
+
+
+
 
       </main>
     </div>
