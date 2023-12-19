@@ -40,8 +40,11 @@ function App() {
   const handleChangeInput = (event) => {
     const newInputForm = event.target.value
     if (newInputForm.startsWith(' ')) return;
-    setInputForm(event.target.value)
+    setInputForm(capitalizeFirstLetter(newInputForm))
     debouncedGetMovies(newInputForm)
+  }
+  const capitalizeFirstLetter = (value) => {
+    return value.charAt(0).toUpperCase() + value.slice(1);
   }
   const handleSort = () => {
     setSortMovies(!sortMovies)
@@ -51,19 +54,21 @@ function App() {
     <div className='page'>
       <header>
         <form className='form-container' onSubmit={handleSubmit}>
-          <label htmlFor="input-search">Buscar Peliculas</label>
+          <label className="label-search"  htmlFor="input-search">Busca tu Película:</label>
           <input value={inputForm}
             onChange={handleChangeInput}
             name='inputSearchForDoom'
             type="text"
             id='input-search'
-            placeholder='Batman Returns, Harry Potter, Mision Imposible' />
-          <label>Ver por Orden Alfabetico A-Z</label>
-          <input type="checkbox" onChange={handleSort} checked={sortMovies} />
-          <button type="submit">Buscar</button>
+            placeholder='Encuentrala...'
+            className='input-search'
+             />
+          <label className='sort-label' htmlFor='input-checkbox' >Ver por Orden Alfabetico A-Z</label>
+          <input className='sort-checkbox'  type="checkbox" onChange={handleSort} checked={sortMovies}  id='input-checkbox'/>
+          
 
         </form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
 
       </header>
 

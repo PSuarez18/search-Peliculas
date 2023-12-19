@@ -38,3 +38,99 @@ form {
   border-radius: 8px;
   margin-top:  8px;
 }
+
+.label-search {
+  display: inline-block;
+  font-size: 1.1em;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  padding: 6px 8px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
+
+.label-search:hover {
+  opacity: 0.8; 
+  cursor: pointer; 
+  border: 2.5px solid #007bff;
+  vertical-align: middle;
+}
+
+.input-search {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 8px;
+}
+
+.input-search:focus {
+  border-bottom: 2px solid #007bff;
+  outline: none; 
+  cursor: pointer;
+  
+  
+}
+
+.label-search,
+.input-search {
+  vertical-align: middle; 
+}
+
+.error-message {
+  color: red;
+  text-align: center; 
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 8px; 
+  margin: 10px 0; 
+}
+
+.sort-label {
+  font-size: 1.1em;
+  color: #333;
+  margin-right: 2px;
+}
+
+.sort-checkbox {
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  background: lightgrey;
+  height: 1.65rem;
+  width: 2.75rem;
+  vertical-align: middle;
+  border-radius: 2rem;
+  box-shadow: 0px 1px 3px #0003 inset;
+  transition: 0.25s linear background
+  
+}
+.sort-checkbox:checked {
+  background-color: #007bff;
+  border: 2px solid #007bff;
+  box-shadow: none;
+}
+.sort-checkbox:not(:checked) {
+  box-shadow: none;
+}
+.sort-checkbox::before {
+  content: "";
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: #2e2d2d;
+  border-radius: 1.2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: 0px 2px 3px #0003;
+  transition: 0.25s linear transform;
+  transform: translateX(0rem);
+  opacity: 1;
+}
+.sort-checkbox:checked::before {
+  transform: translateX(1rem);
+  opacity: 0; 
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; 
+}
+
+
+
