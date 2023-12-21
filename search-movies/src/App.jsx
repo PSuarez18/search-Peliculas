@@ -6,6 +6,7 @@ import './App.css'
 import debounce from 'just-debounce-it'
 import { handleMovieClick } from './services/movieDetailApi'
 import MovieDetail from './components/detail'
+import { initializeCanvas } from './styles/backgroundScript'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
   const { inputForm, setInputForm, error } = useSearch()
   const { movies, getMovies, loading, errorMessage } = useMovies({ inputForm, sortMovies })
   const [movieData, setMovieData] = useState(null)
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const debouncedGetMovies = useCallback(debounce(inputForm => {  // el debounce sirve para que no se hagan llamadas en vano a la API, es decir que no se hagan llamadas a la API hasta que no se termine de escribir en el input, es decir que no se hagan llamadas en vano a la API, pero si cada 300 milisegundos
     getMovies({ inputForm })
@@ -20,22 +22,7 @@ function App() {
     , [getMovies]  // uso callback  con dependencias de getmovies para que solo se cree el debounce cuando estoy necesitando getmovies
   )  // y el usscallback hace que no se cree en cada rende render el debounce
 
-  /*const inputRef = useRef()    MANERA DE HACERLO CON EL USEREF , OSEA MANIPULANDO DIRECTAMENTE EL ARBOL ES UNA MANERA NO CONTROLADADA DE HACERLO, es para que el valor persista entre renders 
 
-  const handleSubmit= (event) => {   NO OLVIDAR AGREGAR EL ATRIBUTO REF EN EL INPUT PARA USAR ESTA FORMA
-    event.preventDefault()
-    const inputEl= inputRef.current
-    const value = inputEl.value
-    console.log(value)
-  }*/
-
-  /*const handleSubmit1 = (event) => {
-    event.preventDefault()
-    const {inputSearchForDoom} = Object.fromEntries(new window.FormData(event.target))
-    console.log(inputSearchForDoom)
-    //ESTA MANERA HACE QUE PUEDA RECUPERAR LOS VALODRES DEL ELEMENTOS DEL DOOM Y ES MAS ESCALABLE , ASI NO TENGO QUE CREAR UN REF PARA CADA INPUT, SERIA UN CODIGO MAS LIMPIO 
-    tengo que descontracturar la entrada osea el input usando el atributo name del input en este caso inputSearchForDoom
-  }*/
   const handleSubmit = (event) => {
     event.preventDefault()
     getMovies({ inputForm })
@@ -53,9 +40,31 @@ function App() {
     setSortMovies(!sortMovies)
   }
 
- 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false)
+  }
+
+
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    // Inicializar el canvas
+    const canvasScript = initializeCanvas(canvasRef.current);
+
+    // Cleanup
+    return () => {
+      // Limpiar recursos si es necesario
+      // Puedes llamar a funciones de cleanup desde canvasScript si es necesario
+    };
+  }, []); // Se ejecutará solo una vez al montar el componente
+
+
+
 
   return (
+
     <div className='page'>
       <header>
         <form className='form-container' onSubmit={handleSubmit}>
@@ -84,20 +93,18 @@ function App() {
             :
             (
               <>
-                {movieData ?
-                  (<MovieDetail data={movieData} />)
+                {isModalOpen && movieData ?
+                  (<MovieDetail data={movieData} onClose={closeModal} />)
                   :
-                  <Movies movies={movies} onMovieClick={(title) => handleMovieClick(title, setMovieData)} />}
+                  <Movies movies={movies} onMovieClick={(title) => handleMovieClick(title, setMovieData, openModal)} />}
               </>
             )
-
         }
 
-
-
-
       </main>
+      <canvas id="nokey" ref={canvasRef}></canvas>
     </div>
+
   )
 }
 

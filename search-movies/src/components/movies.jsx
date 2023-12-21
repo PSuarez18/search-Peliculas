@@ -1,11 +1,13 @@
+import "../styles/movies.css"
+
 const ListOfMovies = ({ movies, onMovieClick }) => {
     return (
         <ul className="movies">
             {movies.map(movie => (
-                <li className="movie" key={movie.id} onClick={()=> {onMovieClick(movie.title)}}>
+                <li className="movie" key={movie.id} >
                     <h3>{movie.title}</h3>
                     <p>{movie.year}</p>
-                    <img src={movie.poster} alt={movie.title} />
+                    <img src={movie.poster} alt={movie.title} onClick={()=> {onMovieClick(movie.title)}} />
                 </li>
             ))}
         </ul>
@@ -14,7 +16,9 @@ const ListOfMovies = ({ movies, onMovieClick }) => {
 
 const NoMoviesResults = () => {
     return (
-        <p>NO HAY PELICULAS QUE MOSTRAR, INTENTA CON OTRA BUSQUEDA</p>
+        <div className="NoMoviesResults">
+            <p>Lo sentimos, no encontramos ninguna película que coincida con tu búsqueda.</p>
+        </div>
     )
 }
 
