@@ -27,15 +27,17 @@ canvas {
   width: 100%;
   max-width: 800px;
   background-color: transparent !important;
-  padding-top: 8px;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
 }
 
 main {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 95%;
+  width: 100%;
   background: transparent;
+  padding-top: 3rem;
 }
 form {
   align-items: center;
@@ -57,16 +59,7 @@ form {
   background: transparent;
 }
 
-.movie {
-  text-align: center;
-}
-.movie h3, .movie p {
-  padding-bottom: 0;
-}
-.movie img {
-  border-radius: 8px;
-  margin-top:  8px;
-}
+
 
 .label-search {
   display: inline-block;

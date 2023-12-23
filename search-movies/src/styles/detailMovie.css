@@ -10,15 +10,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white !important;
 }
 
 /* Estilo para el contenedor del modal */
 .modal-container {
-    background-color: #fff;
+    background-color: #191818;
     /* Fondo blanco para el modal */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.889);
+    box-shadow: 0 0 10px rgba(160, 159, 159, 0.889);
     /* Sombra suave */
     max-width: 600px;
     /* Ancho máximo del modal */
@@ -30,9 +31,13 @@
 }
 
 /* Estilo para el título del modal */
-.modal-title {
-    font-size: 24px;
+.modal-title, h2 {
+    font-size: 2.1rem;
     margin-bottom: 10px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    background: transparent;
+    text-shadow: 0px 0px 8px white;
 }
 
 /* Estilo para las secciones del modal (Detalles, Ratings, Otros) */
@@ -42,8 +47,45 @@
 
 /* Estilo para cada elemento en las secciones del modal */
 .modal-section p {
-    margin: 8px 0;
+    margin: 8px 0; 
+    border-radius: 8px !important; /* Puedes probar con !important si es necesario */
 }
+.container-border {
+    border-radius: 8px;
+}
+.modal-container img {
+    display: block; /* Asegura que la imagen se comporte como un bloque */
+    margin: 0 auto; /* Establece márgenes automáticos para centrar horizontalmente */
+    border-radius: 4px;
+}
+
+
+/* Estilo para la etiqueta strong dentro de .modal-container p */
+.modal-container p strong {
+    color: white; /* Agrega otros estilos según sea necesario */
+    background: transparent !important;
+    padding: 4px;
+}
+
+/* Estilo inicial para las etiquetas <p> dentro de .modal-container */
+.modal-container p {
+    margin: 8px 0;
+    transition: color 0.3s ease, filter 0.3s ease; /* Agrega una transición suave */
+    filter: blur(1px); /* Aplica un desenfoque por defecto */
+    background: transparent !important;
+}
+
+/* Estilo para el hover */
+.modal-container p:hover {
+    color: #c0a405; /* Cambia el color al pasar el ratón */
+    filter: blur(0); /* Elimina el desenfoque al pasar el ratón */
+}
+
+/* Estilo para la etiqueta clicada */
+.modal-container p.active {
+    filter: blur(0); /* Elimina el desenfoque cuando se hace clic */
+}
+
 
 /* Estilo para las calificaciones dentro del modal */
 .modal-ratings {

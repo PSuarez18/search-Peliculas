@@ -7,6 +7,7 @@ import debounce from 'just-debounce-it'
 import { handleMovieClick } from './services/movieDetailApi'
 import MovieDetail from './components/detail'
 import { initializeCanvas } from './styles/backgroundScript'
+import Loader from './components/loader'
 
 function App() {
 
@@ -50,14 +51,8 @@ function App() {
 
   const canvasRef = useRef(null);
   useEffect(() => {
-    // Inicializar el canvas
     const canvasScript = initializeCanvas(canvasRef.current);
 
-    // Cleanup
-    return () => {
-      // Limpiar recursos si es necesario
-      // Puedes llamar a funciones de cleanup desde canvasScript si es necesario
-    };
   }, []); // Se ejecutará solo una vez al montar el componente
 
 
@@ -89,14 +84,15 @@ function App() {
       <main>
         {
           loading ?
-            (<p>loading...</p>)
+            (<Loader />)
             :
             (
               <>
                 {isModalOpen && movieData ?
                   (<MovieDetail data={movieData} onClose={closeModal} />)
-                  :
-                  <Movies movies={movies} onMovieClick={(title) => handleMovieClick(title, setMovieData, openModal)} />}
+                  : (
+                    inputForm && movies ? <Movies movies={movies} onMovieClick={(title) => handleMovieClick(title, setMovieData, openModal)} />
+                      : <></>)}
               </>
             )
         }
