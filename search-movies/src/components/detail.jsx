@@ -96,7 +96,7 @@ function MovieDetail({ data, onClose }) {
                 </div>
 
                 <div  className='container-border' > 
-                    <p onClick={handleParagraphClick} className={activeElement === null ? 'active' : ''}><strong>{translations.Type}:</strong> {data.Type}</p>
+                    <p onClick={handleParagraphClick} className={activeElement === null ? 'active' : ''}><strong>{translations.Type}:</strong> <span className="capitalize-text">{data.Type}</span></p>
                     <p onClick={handleParagraphClick} className={activeElement === null ? 'active' : ''}><strong>{translations.DVD}:</strong> {data.DVD}</p>
                     <p onClick={handleParagraphClick} className={activeElement === null ? 'active' : ''}><strong>{translations.BoxOffice}:</strong> {data.BoxOffice}</p>
                     <p onClick={handleParagraphClick} className={activeElement === null ? 'active' : ''}><strong>{translations.Production}:</strong> {data.Production}</p>
