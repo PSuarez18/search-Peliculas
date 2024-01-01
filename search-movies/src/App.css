@@ -154,5 +154,20 @@ form {
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; 
 }
 
+@media (max-width: 646px) {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+  }
 
+  .input-search {
+    min-width: 51vw;
+    margin: 5% 10% 10% 10% ;
+    }
+   
+  .label-search {
+    min-width: 52vw;
+    text-align: center;
 
+  }
+}
